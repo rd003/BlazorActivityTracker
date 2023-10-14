@@ -1,5 +1,20 @@
 @page "/activity"
-<h2>Manage Activity</h2>
+@using BlazorActivityTracker.Pages.ManageActivity.UI
+
+<div class="row p-3">
+
+  <div class="col-md-5">
+      @* activity form *@
+      <ActivityForm/> 
+
+  </div>
+
+  <div class="col-md-7">
+      @* acitity list, filters *@
+      <Filter/>
+      <ActivityList/>
+  </div>
+</div>
 
 @code{
    

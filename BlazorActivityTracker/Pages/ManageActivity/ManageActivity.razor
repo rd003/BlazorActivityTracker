@@ -5,17 +5,13 @@
 
   <div class="col-md-5">
       @* activity form *@
-      <ActivityForm/> 
+      <ActivityForm activity="@activity" FormReset="HandleReset" ValidFormSubmit="HandleSubmit" /> 
 
   </div>
 
   <div class="col-md-7">
       @* acitity list, filters *@
       <Filter/>
-      <ActivityList/>
+      <ActivityList Activities="@activities" OnEdit="HandleEdit" OnDelete="HandleDelete"/>
   </div>
 </div>
-
-@code{
-   
-}

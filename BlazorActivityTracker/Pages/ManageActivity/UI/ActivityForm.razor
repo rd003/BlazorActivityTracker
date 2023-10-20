@@ -1,26 +1,41 @@
 @using Microsoft.AspNetCore.Components.Forms
- <EditForm Model="activity">
+ <EditForm Model="@activity" OnValidSubmit="HandleSubmit">
+   <DataAnnotationsValidator /> 
+    <input type="hidden" @bind="activity.Id">
     <div class="mb-3">
      <label>Activitity Date*</label>
-     <input type="date" class="form-control"/>
+     <input type="date" @bind="activity.ActivityDate" class="form-control"/>
+      <ValidationMessage class="text-danger" For="()=>activity.ActivityDate"/>
  </div>
 
  <div class="mb-3">
      <label>Total Hours*</label>
-     <input type="text" class="form-control"/>
+     <input type="text" @bind="activity.TotalHours" class="form-control"/>
+     <ValidationMessage class="text-danger" For="()=>activity.TotalHours"/>
  </div>
 
 <div class="mb-3">
      <label>Description*</label>
-     <textarea type="text" class="form-control"> </textarea>
+     <textarea type="text" @bind="@activity.Description" class="form-control"> </textarea>
+      <ValidationMessage class="text-danger" For="()=>activity.Description"/>
  </div>
 
  <div class="mb-3">
      <button type="submit" class="btn btn-primary">Save</button>
-     <button type="button" class="btn btn-success">Reset</button>
+     <button type="button" @onclick="()=>FormReset?.Invoke()" class="btn btn-success">Reset</button>
  </div>
  </EditForm>
 @code{
-  DataAccess.Models.Activity activity = new DataAccess.Models.Activity();    
+    [Parameter]
+    public EventCallback<DataAccess.Models.Activity> ValidFormSubmit { get; set; } 
+    [Parameter]
+    public Action FormReset { get; set; }
+    [Parameter]
+    public  DataAccess.Models.Activity activity { get; set; }
+
+    async void HandleSubmit()
+    {
+        await ValidFormSubmit.InvokeAsync(activity);
+    }
     
 }

@@ -1,0 +1,18 @@
+<div class="alert @CssClass" role="alert">
+    @Message
+</div>
+
+
+@code {
+    [Parameter]
+    public string Message { get; set; }
+    [Parameter]
+    public string CssClass { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        CssClass = CssClass+" fade-out";
+    }
+
+}

@@ -8,17 +8,37 @@
     </tr>
  </thead>
  <tbody>
+    @foreach(var activity in Activities )
+    {
     <tr>
-        <td>date</td>
-        <td>hours</td>
-        <td>desc</td>
+        <td>@activity.ActivityDate?.ToString("dd-MM-yyyy")</td>
+        <td>@activity.TotalHours</td>
+        <td>@activity.Description</td>
         <td>
-            <buttton type="button" class="btn btn-info">✏️</buttton>
-            <buttton type="button" class="btn btn-danger">🗑️</buttton>
+            <buttton type="button" class="btn btn-info" @onclick="()=>HandleEdit(activity)">✏️</buttton>
+            <buttton type="button" class="btn btn-danger" @onclick="()=>HandleDelete(activity)">🗑️</buttton>
         </td>
     </tr>
+    }
  </tbody>
 </table>
 @code{
-    
+    [Parameter]
+    public IEnumerable<Activity> Activities { get; set; }
+
+    [Parameter]
+    public EventCallback<Activity> OnEdit { get; set; }
+    [Parameter]
+    public EventCallback<Activity> OnDelete { get; set; }
+
+    public void HandleEdit(Activity activity)
+    {
+        OnEdit.InvokeAsync(activity);
+    }
+
+    public void HandleDelete(Activity activity)
+    {
+        OnDelete.InvokeAsync(activity);
+
+    }
 }

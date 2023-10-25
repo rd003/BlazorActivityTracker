@@ -63,6 +63,7 @@ public partial class ManageActivity
             message = "Error has occured";
             state = (int)States.Error;
         }
+        StateHasChanged();
     }
 
     void HandleReset()
@@ -142,6 +143,7 @@ public partial class ManageActivity
             await LoadActivities(filters.StartDate, filters.EndDate);
         }
     }
+
 
     async void HandleLoadAll()
     {

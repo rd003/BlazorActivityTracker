@@ -62,4 +62,14 @@ public class ActivityRepository : IActivityRepository
 
 
 
+
+    public async Task<bool> IsActivityDateExists(DateTime activityDate, int id)
+    {
+        using IDbConnection connection = new SqlConnection(connectionString);
+        string sql = @"select top 1 Id from Activity where Convert(Date,ActivityDate)= CONVERT(Date,@activityDate) and Id!=@id";
+        var activityId = await connection.QueryFirstOrDefaultAsync<int>(sql, new { activityDate, id });
+        return activityId > 0;
+    }
+
+
 }

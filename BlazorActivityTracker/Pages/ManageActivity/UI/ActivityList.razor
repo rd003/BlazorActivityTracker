@@ -11,7 +11,7 @@
     @foreach(var activity in Activities )
     {
     <tr>
-        <td>@activity.ActivityDate?.ToString("dd-MM-yyyy")</td>
+        <td>@activity.ActivityDate.ToString("dd-MM-yyyy")</td>
         <td>@activity.TotalHours</td>
         <td>@activity.Description</td>
         <td>

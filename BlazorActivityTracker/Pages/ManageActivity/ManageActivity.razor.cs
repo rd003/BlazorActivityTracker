@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using DataAccess.Repositories;
 using BlazorActivityTracker.Helpers;
 using Microsoft.JSInterop;
+using BlazorActivityTracker.ViewModels;
 
 
 namespace BlazorActivityTracker.Pages.ManageActivity;
@@ -84,7 +85,25 @@ public partial class ManageActivity
     async Task HandleDelete(
        DataAccess.Models.Activity activityToDelete)
     {
-        Console.WriteLine(activityToDelete.Id + " deleted");
+        try
+        {
+            bool result = await jSRuntime.InvokeAsync<bool>("confirm", "Are you sure to delete??");
+            if (result)
+            {
+                state = (int)States.Pending;
+                message = "deleted successfully";
+                await activityRepos.DeleteActivityAsync(activityToDelete.Id);
+                activities.Remove(activityToDelete);
+                state = (int)States.Completed;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex.Message);
+            message = "Could not deleted";
+            state = (int)States.Error;
+        }
+
     }
 
 
@@ -114,6 +133,21 @@ public partial class ManageActivity
 
 
 
+    async Task HandleSelectDate(FilterModel filters)
+    {
+        var startDate = filters.StartDate;
+        var endDate = filters.EndDate;
+        if (startDate != null & endDate != null)
+        {
+            await LoadActivities(filters.StartDate, filters.EndDate);
+        }
+    }
+
+    async void HandleLoadAll()
+    {
+        await LoadActivities();
+        StateHasChanged();
+    }
 
 
 

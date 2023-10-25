@@ -27,7 +27,7 @@
 
   <div class="col-md-7">
       @* acitity list, filters *@
-      <Filter/>
+      <Filter OnSelectDate="HandleSelectDate" OnLoadAll="HandleLoadAll"/>
       <ActivityList Activities="@activities" OnEdit="HandleEdit" OnDelete="HandleDelete"/>
   </div>
 </div>
